@@ -210,6 +210,22 @@ hr.sep{border:none;border-top:1px solid #1d2c47;margin:16px 0}
 .mini-btn:hover{border-color:#3d658f;color:#d8eaff}
 .mini-btn:disabled{opacity:.38;cursor:not-allowed}
 .track-meta{font-size:11px;color:#7d90b0;margin-top:2px}
+
+/* Preset Detail Card */
+.preset-detail-card{padding:0;overflow:hidden}
+.preset-detail-card>h2{padding:18px 20px 0 20px;margin-bottom:12px}
+.preset-detail-content{padding:0 20px 18px}
+.preset-detail-grid{display:grid;gap:6px;margin:12px 0}
+.preset-detail-row{display:grid;grid-template-columns:1fr 80px 90px;padding:9px 12px;background:#0c1931;border:1px solid #1a2d4a;border-radius:8px;font-size:12.5px;align-items:center}
+.preset-detail-row.header{color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:.6px;background:transparent;border-color:transparent;padding-bottom:4px}
+.preset-detail-row .layer-name{color:#d6e6ff;font-weight:600}
+.preset-detail-row .offset-val{color:var(--accent2);font-weight:700;text-align:center}
+.preset-detail-row .output-val{color:var(--accent);font-weight:700;text-align:right}
+.preset-master-row{display:flex;align-items:center;gap:12px;padding:12px;background:#0c1931;border:1px solid #1a2d4a;border-radius:10px;margin-bottom:12px}
+.preset-master-row label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.preset-master-row .range-row{flex:1}
+.preset-desc{font-size:12px;color:#8a9ab8;line-height:1.5;padding:10px 12px;background:#080f1c;border:1px solid #1a2d4a;border-radius:8px;margin-top:10px}
+.preset-desc b{color:#c9d7ef}
 </style>
 </head>
 <body>
@@ -246,12 +262,12 @@ hr.sep{border:none;border-top:1px solid #1d2c47;margin:16px 0}
       <div class="section">
         <label class="label">Estado objetivo (ventana de acceso)</label>
         <div class="preset-grid" id="presetGrid">
-          <div class="preset" data-wave="delta" data-beat="2.5" data-carrier="120"><b>Delta</b><span>0.5–4 Hz • sueño profundo</span></div>
-          <div class="preset on" data-wave="theta" data-beat="6" data-carrier="150"><b>Theta</b><span>4–8 Hz • reprogramación</span></div>
-          <div class="preset" data-wave="alpha" data-beat="10" data-carrier="200"><b>Alpha</b><span>8–12 Hz • enfoque calmo</span></div>
-          <div class="preset" data-wave="beta" data-beat="18" data-carrier="250"><b>Beta</b><span>12–30 Hz • concentración</span></div>
-          <div class="preset" data-wave="gamma" data-beat="40" data-carrier="300"><b>Gamma</b><span>30–50 Hz • insight</span></div>
-          <div class="preset" data-wave="custom" data-beat="7.83" data-carrier="136.1"><b>Schumann</b><span>7.83 Hz • tierra</span></div>
+          <div class="preset" data-wave="delta" data-beat="2.5" data-carrier="120" data-binaural="0" data-ambient="+3" data-voice="-6" data-ambient-type="brown" data-desc="Ambiente masking externo para sueño profundo. Voz muy suave."><b>Delta</b><span>0.5–4 Hz • sueño profundo</span></div>
+          <div class="preset on" data-wave="theta" data-beat="6" data-carrier="150" data-binaural="0" data-ambient="-3" data-voice="-3" data-ambient-type="pink" data-desc="Balance equilibrado para reprogramación subliminal. Arrastre cerebral óptimo."><b>Theta</b><span>4–8 Hz • reprogramación</span></div>
+          <div class="preset" data-wave="alpha" data-beat="10" data-carrier="200" data-binaural="0" data-ambient="-6" data-voice="-3" data-ambient-type="rain" data-desc="Enfoque calmado. Ambiente reducido para no interferir con atención."><b>Alpha</b><span>8–12 Hz • enfoque calmo</span></div>
+          <div class="preset" data-wave="beta" data-beat="18" data-carrier="250" data-binaural="0" data-ambient="-9" data-voice="-9" data-ambient-type="pink" data-desc="Concentración máxima. Binaural prominente, ambiente y voz mínimos."><b>Beta</b><span>12–30 Hz • concentración</span></div>
+          <div class="preset" data-wave="gamma" data-beat="40" data-carrier="300" data-binaural="0" data-ambient="-15" data-voice="-15" data-ambient-type="shush" data-desc="Insight y flow. Binaural MÁXIMO. Ruido interfiere con Gamma."><b>Gamma</b><span>30–50 Hz • insight</span></div>
+          <div class="preset" data-wave="custom" data-beat="7.83" data-carrier="136.1" data-binaural="0" data-ambient="-3" data-voice="-3" data-ambient-type="ocean" data-desc="Frecuencia resonante terrestre. Equilibrio natural."><b>Schumann</b><span>7.83 Hz • tierra</span></div>
         </div>
       </div>
       <div class="section grid-2">
@@ -267,7 +283,8 @@ hr.sep{border:none;border-top:1px solid #1d2c47;margin:16px 0}
       </div>
       <div class="section">
         <label class="label">Volumen binaural</label>
-        <div class="range-row"><input type="range" id="volBinaural" min="0" max="100" value="65"><span class="range-val" id="volBinauralVal">65%</span></div>
+        <div class="range-row"><input type="range" id="volBinaural" min="0" max="100" value="65"><span class="range-val db-val" id="volBinauralVal">-9.4 dB</span></div>
+        <div class="subtle" style="margin-top:4px">Zona recomendada: <span class="kbd">-12 dB</span> a <span class="kbd">-6 dB</span> • <span class="kbd">-9 dB</span> óptimo</div>
       </div>
       <div class="section">
         <label class="label">Rampa de entrada / salida</label>
@@ -371,23 +388,65 @@ hr.sep{border:none;border-top:1px solid #1d2c47;margin:16px 0}
         </div>
       </div>
 
+      <div class="card preset-detail-card">
+        <h2><span class="dot" style="background:var(--warn)"></span> Perfil de Audio — <span id="presetNameDetail">Theta</span></h2>
+        <div class="preset-detail-content">
+          <div class="preset-master-row">
+            <label>Master</label>
+            <div class="range-row" style="flex:1">
+              <input type="range" id="presetMaster" min="0" max="100" value="82" style="flex:1">
+              <span class="range-val db-val" id="presetMasterVal" style="min-width:60px">-4.3 dB</span>
+            </div>
+          </div>
+          <div class="preset-detail-grid">
+            <div class="preset-detail-row header">
+              <span>Capa</span>
+              <span style="text-align:center">Relativo</span>
+              <span style="text-align:right">Salida Real</span>
+            </div>
+            <div class="preset-detail-row">
+              <span class="layer-name">Binaural</span>
+              <span class="offset-val" id="relBinaural">0 dB</span>
+              <span class="output-val" id="outBinaural">-4.3 dB</span>
+            </div>
+            <div class="preset-detail-row">
+              <span class="layer-name">Ambiente</span>
+              <span class="offset-val" id="relAmbient">-3 dB</span>
+              <span class="output-val" id="outAmbient">-7.3 dB</span>
+            </div>
+            <div class="preset-detail-row">
+              <span class="layer-name">Voz</span>
+              <span class="offset-val" id="relVoice">-3 dB</span>
+              <span class="output-val" id="outVoice">-7.3 dB</span>
+            </div>
+          </div>
+          <div class="preset-desc" id="presetDesc">
+            <b>Theta:</b> Balance equilibrado para reprogramación subliminal. Arrastre cerebral óptimo.
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <h2><span class="dot" style="background:var(--warn)"></span> Priming SAR — atención selectiva</h2>
         <div style="font-size:13px;color:#c6d6f2;line-height:1.6">
-          Al retirar el audio, tu SAR filtrará distracciones y priorizará el patrón semántico sembrado.
+          <span id="sarDescription">Al retirar el audio, tu SAR filtrará distracciones y priorizará el patrón semántico sembrado.</span>
           <br><br>
           <b>Patrón activo:</b> <span id="activePatternText" style="color:var(--accent)">claridad • resolución paso a paso • automatización de enfoque</span>
-          <div style="margin-top:10px" class="meter" aria-hidden="true">
-            <i style="width:36%;background:var(--delta)"></i>
-            <i style="width:28%;background:var(--theta)"></i>
-            <i style="width:22%;background:var(--alpha)"></i>
-            <i style="width:14%;background:var(--beta)"></i>
+          <div style="margin-top:10px" class="meter" aria-hidden="true" id="sarMeter">
+            <i id="meterDelta" style="width:5%;background:var(--delta)"></i>
+            <i id="meterTheta" style="width:80%;background:var(--theta)"></i>
+            <i id="meterAlpha" style="width:10%;background:var(--alpha)"></i>
+            <i id="meterBeta" style="width:5%;background:var(--beta)"></i>
           </div>
           <div class="legend">
             <span><b style="background:var(--delta)"></b> Delta</span>
             <span><b style="background:var(--theta)"></b> Theta</span>
             <span><b style="background:var(--alpha)"></b> Alpha</span>
             <span><b style="background:var(--beta)"></b> Beta</span>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:var(--muted)">
+            Estado objetivo: <b id="sarTargetState" style="color:var(--accent)">Theta 4-8 Hz</b> • 
+            <span id="sarTargetEffect">reprogramación subliminal</span>
           </div>
         </div>
       </div>
@@ -410,7 +469,8 @@ hr.sep{border:none;border-top:1px solid #1d2c47;margin:16px 0}
         </select>
         <div style="margin-top:8px">
           <label class="label">Volumen ambiente</label>
-          <div class="range-row"><input type="range" id="volAmbient" min="0" max="100" value="38"><span class="range-val" id="volAmbientVal">38%</span></div>
+          <div class="range-row"><input type="range" id="volAmbient" min="0" max="100" value="38"><span class="range-val db-val" id="volAmbientVal">-14.6 dB</span></div>
+          <div class="subtle" style="margin-top:4px">Zona recomendada: <span class="kbd">-18 dB</span> a <span class="kbd">-9 dB</span> • <span class="kbd">-12 dB</span> óptimo</div>
         </div>
       </div>
 
@@ -489,7 +549,8 @@ hr.sep{border:none;border-top:1px solid #1d2c47;margin:16px 0}
 
       <div style="margin-top:6px">
         <label class="label">Master</label>
-        <div class="range-row"><input type="range" id="volMaster" min="0" max="100" value="82"><span class="range-val" id="volMasterVal">82%</span></div>
+        <div class="range-row"><input type="range" id="volMaster" min="0" max="100" value="82"><span class="range-val db-val" id="volMasterVal">-4.3 dB</span></div>
+        <div class="subtle" style="margin-top:4px">Zona recomendada: <span class="kbd">-6 dB</span> a <span class="kbd">0 dB</span> • <span class="kbd">-3 dB</span> óptimo</div>
       </div>
     </div>
   </div>
@@ -568,12 +629,12 @@ function getWaveLabel(hz){
   return {name:'Gamma', color:'#ff6ea9'};
 }
 
-function initAudio(){
+function createAudioContext(){
   if(audioCtx) return;
   audioCtx = new (window.AudioContext||window.webkitAudioContext)({latencyHint:'interactive'});
-  masterGain = audioCtx.createGain(); masterGain.gain.value = 0.82; masterGain.connect(audioCtx.destination);
-  binauralBus = audioCtx.createGain(); binauralBus.gain.value = 0.65; binauralBus.connect(masterGain);
-  ambientBus = audioCtx.createGain(); ambientBus.gain.value = 0.38; ambientBus.connect(masterGain);
+  masterGain = audioCtx.createGain(); masterGain.gain.value = gainFromDb(-4.3); masterGain.connect(audioCtx.destination);
+  binauralBus = audioCtx.createGain(); binauralBus.gain.value = gainFromDb(-9.4); binauralBus.connect(masterGain);
+  ambientBus = audioCtx.createGain(); ambientBus.gain.value = gainFromDb(-14.6); ambientBus.connect(masterGain);
   voiceBus = audioCtx.createGain(); voiceBus.gain.value = gainFromDb(-9.4); voiceBus.connect(masterGain);
 
   mergerNode = audioCtx.createChannelMerger(2); mergerNode.connect(binauralBus);
@@ -581,12 +642,10 @@ function initAudio(){
   oscL.type='sine'; oscR.type='sine';
   updateOscFreqs();
   oscL.connect(mergerNode,0,0); oscR.connect(mergerNode,0,1);
-  oscL.start(); oscR.start();
 
   document.querySelector('#statusAudio span').textContent = 'Audio: activo';
   document.getElementById('statusAudio').classList.add('live');
 
-  // connect any pre-existing tracks to voiceBus
   tracks.forEach(tr=>{
     if(!tr.gainNode){
       tr.gainNode = audioCtx.createGain();
@@ -598,8 +657,34 @@ function initAudio(){
     }
   });
 
-  startAmbient('pink');
   startEEG();
+}
+
+function startBinaural(){
+  if(oscL && !binauralStarted){
+    oscL.start(); oscR.start();
+    binauralStarted = true;
+  }
+}
+
+function stopBinaural(){
+  if(oscL && binauralStarted){
+    try{ oscL.stop(); }catch(e){}
+    try{ oscR.stop(); }catch(e){}
+    binauralStarted = false;
+    // recreate for next session
+    oscL = audioCtx.createOscillator(); oscR = audioCtx.createOscillator();
+    oscL.type='sine'; oscR.type='sine';
+    updateOscFreqs();
+    oscL.connect(mergerNode,0,0); oscR.connect(mergerNode,0,1);
+  }
+}
+
+let binauralStarted = false;
+
+function initAudio(){
+  createAudioContext();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
 }
 
 function updateOscFreqs(){
@@ -1113,15 +1198,20 @@ function setPlayIcon(playing){
 async function startSession(){
   initAudio();
   if(audioCtx.state === 'suspended') await audioCtx.resume();
+  startBinaural();
+  startAmbient(document.getElementById('ambientSelect').value);
+  startEEG();
   await connectVoiceTracks();
   const rampSec = parseInt(document.getElementById('rampIn').value,10);
   const now = audioCtx.currentTime;
+  const masterDb = -24 + (parseInt(document.getElementById('volMaster').value,10)/100)*24;
+  const masterVal = gainFromDb(masterDb);
   masterGain.gain.cancelScheduledValues(now);
   if(rampSec>0){
     masterGain.gain.setValueAtTime(0.001, now);
-    masterGain.gain.exponentialRampToValueAtTime(parseFloat(document.getElementById('volMaster').value)/100, now + rampSec);
+    masterGain.gain.exponentialRampToValueAtTime(masterVal, now + rampSec);
   } else {
-    masterGain.gain.setValueAtTime(parseFloat(document.getElementById('volMaster').value)/100, now);
+    masterGain.gain.setValueAtTime(masterVal, now);
   }
   isPlaying = true;
   setPlayIcon(true);
@@ -1138,6 +1228,7 @@ function pauseSession(){
   isPlaying=false;
   setPlayIcon(false);
   clearInterval(sessionTimer);
+  stopEEG();
   document.getElementById('statusSAR').textContent='SAR: pausa';
   document.getElementById('sarBadge').textContent='SAR: PAUSA';
   updateQueueStatus();
@@ -1148,9 +1239,11 @@ function stopSession(ramp=true){
   isPlaying=false;
   clearInterval(sessionTimer);
   setPlayIcon(false);
+  stopEEG();
   document.getElementById('statusSAR').textContent='SAR: consolidando';
   document.getElementById('sarBadge').textContent='SAR: CONSOLIDANDO PATRÓN';
   updateQueueStatus();
+  stopAmbient();
   if(audioCtx && ramp){
     const outSec = parseInt(document.getElementById('rampOut').value,10);
     const now = audioCtx.currentTime;
@@ -1158,6 +1251,7 @@ function stopSession(ramp=true){
     masterGain.gain.setValueAtTime(masterGain.gain.value, now);
     masterGain.gain.exponentialRampToValueAtTime(0.001, now + outSec);
     setTimeout(()=>{
+      stopBinaural();
       document.getElementById('sarBadge').textContent='SAR: PRIMING ACTIVO 4–6h';
       document.getElementById('statusSAR').textContent='SAR: priming activo';
       toast('Sesión finalizada. Priming SAR activo 4-6h.');
@@ -1199,12 +1293,37 @@ function updateProgressUI(){
 }
 
 /* ========== EEG visualizer ========== */
-let eegAnim;
+let eegAnim = null;
+let eegRunning = false;
+
+function drawStaticEEG(){
+  const canvas = document.getElementById('eegCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='#13213d'; ctx.lineWidth=1;
+  for(let y=30;y<H;y+=30){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+  const beat = parseFloat(document.getElementById('beatFreq')?.value || 6);
+  const wave = getWaveLabel(beat);
+  ctx.lineWidth=1.5; ctx.globalAlpha=0.35;
+  ctx.beginPath(); ctx.strokeStyle=wave.color;
+  for(let x=0;x<W;x++){
+    const t = (x/W)*4*Math.PI;
+    const y = H*0.52 + Math.sin(t*beat/6)*34;
+    if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke(); ctx.globalAlpha=1;
+}
+
 function startEEG(){
+  if(eegRunning) return;
+  eegRunning = true;
   const canvas = document.getElementById('eegCanvas');
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
   function draw(){
+    if(!eegRunning) return;
     eegAnim = requestAnimationFrame(draw);
     const beat = parseFloat(document.getElementById('beatFreq')?.value || 6);
     eegT += 0.018;
@@ -1234,8 +1353,150 @@ function startEEG(){
     ctx.strokeStyle='rgba(255,255,255,0.12)';
     ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,H); ctx.stroke();
   }
-  cancelAnimationFrame(eegAnim);
   draw();
+}
+
+function stopEEG(){
+  eegRunning = false;
+  if(eegAnim){
+    cancelAnimationFrame(eegAnim);
+    eegAnim = null;
+  }
+  drawStaticEEG();
+}
+
+/* ========== Preset Audio Profile System ========== */
+function getCurrentMasterDb(){
+  const v = parseInt(document.getElementById('presetMaster')?.value || document.getElementById('volMaster').value, 10);
+  return -24 + (v/100)*24;
+}
+
+function dbToSliderValue(db){
+  return Math.round(((db + 24) / 24) * 100);
+}
+
+function setSliderToDb(sliderId, displayId, db){
+  const clampedDb = Math.max(-24, Math.min(0, db));
+  const sliderVal = dbToSliderValue(clampedDb);
+  const slider = document.getElementById(sliderId);
+  const display = document.getElementById(displayId);
+  if(slider) slider.value = sliderVal;
+  if(display) display.textContent = clampedDb.toFixed(1)+' dB';
+  return clampedDb;
+}
+
+function applyPresetGains(){
+  const masterDb = getCurrentMasterDb();
+  const activePreset = document.querySelector('#presetGrid .preset.on');
+  if(!activePreset) return;
+  
+  const offsets = {
+    binaural: parseFloat(activePreset.dataset.binaural) || 0,
+    ambient: parseFloat(activePreset.dataset.ambient) || 0,
+    voice: parseFloat(activePreset.dataset.voice) || 0
+  };
+  
+  const binauralDb = setSliderToDb('volBinaural', 'volBinauralVal', masterDb + offsets.binaural);
+  const ambientDb = setSliderToDb('volAmbient', 'volAmbientVal', masterDb + offsets.ambient);
+  const voiceDb = setSliderToDb('volVoice', 'volVoiceVal', masterDb + offsets.voice);
+  
+  document.getElementById('subliminalDb').textContent = voiceDb.toFixed(1)+' dB';
+  document.getElementById('statDb').textContent = voiceDb.toFixed(1)+' dB';
+  
+  if(binauralBus) binauralBus.gain.setTargetAtTime(gainFromDb(binauralDb), audioCtx?.currentTime||0, 0.02);
+  if(ambientBus) ambientBus.gain.setTargetAtTime(gainFromDb(ambientDb), audioCtx?.currentTime||0, 0.05);
+  if(voiceBus) voiceBus.gain.setTargetAtTime(gainFromDb(voiceDb), audioCtx?.currentTime||0, 0.05);
+  
+  updatePresetCard(masterDb, offsets);
+}
+
+function updatePresetCard(masterDb, offsets){
+  const activePreset = document.querySelector('#presetGrid .preset.on');
+  if(!activePreset) return;
+  
+  const name = activePreset.querySelector('b')?.textContent || 'Theta';
+  const desc = activePreset.dataset.desc || '';
+  
+  document.getElementById('presetNameDetail').textContent = name;
+  document.getElementById('relBinaural').textContent = (offsets.binaural >= 0 ? '+' : '') + offsets.binaural + ' dB';
+  document.getElementById('relAmbient').textContent = (offsets.ambient >= 0 ? '+' : '') + offsets.ambient + ' dB';
+  document.getElementById('relVoice').textContent = (offsets.voice >= 0 ? '+' : '') + offsets.voice + ' dB';
+  
+  document.getElementById('outBinaural').textContent = (masterDb + offsets.binaural).toFixed(1) + ' dB';
+  document.getElementById('outAmbient').textContent = (masterDb + offsets.ambient).toFixed(1) + ' dB';
+  document.getElementById('outVoice').textContent = (masterDb + offsets.voice).toFixed(1) + ' dB';
+  
+  document.getElementById('presetDesc').innerHTML = `<b>${name}:</b> ${desc}`;
+  
+  updateSarSection(activePreset.dataset.wave);
+}
+
+const SAR_PROFILES = {
+  delta: {
+    desc: 'SAR enfocado en recuperación profunda. El filtro crítico se relaja completamente para permitir regeneración.',
+    meter: { delta: 75, theta: 15, alpha: 7, beta: 3 },
+    target: 'Delta 0.5-4 Hz',
+    effect: 'sueño profundo y regeneración'
+  },
+  theta: {
+    desc: 'SAR en modo reprogramación. Las sugerencias subliminales se integran directamente en la estructura de creencias.',
+    meter: { delta: 5, theta: 75, alpha: 15, beta: 5 },
+    target: 'Theta 4-8 Hz',
+    effect: 'reprogramación subliminal'
+  },
+  alpha: {
+    desc: 'SAR en modo aprendizaje relajado. Nueva información se absorbe sin resistencia ni ansiedad.',
+    meter: { delta: 3, theta: 12, alpha: 72, beta: 13 },
+    target: 'Alpha 8-12 Hz',
+    effect: 'enfoque calmado y absorción'
+  },
+  beta: {
+    desc: 'SAR en modo concentración activa. Filtra distracciones externas y prioriza tareas complejas.',
+    meter: { delta: 2, theta: 5, alpha: 18, beta: 75 },
+    target: 'Beta 12-30 Hz',
+    effect: 'concentración y análisis'
+  },
+  gamma: {
+    desc: 'SAR en modo insight. Conexiones distantes entre ideas se activan para creatividad de alto nivel.',
+    meter: { delta: 1, theta: 3, alpha: 10, beta: 86 },
+    target: 'Gamma 30-50 Hz',
+    effect: 'insight y flow state'
+  },
+  custom: {
+    desc: 'SAR en resonancia terrestre. Equilibrio natural con frecuencia Schumann.',
+    meter: { delta: 4, theta: 15, alpha: 65, beta: 16 },
+    target: 'Schumann 7.83 Hz',
+    effect: 'equilibrio y grounding'
+  }
+};
+
+function updateSarSection(wave){
+  const profile = SAR_PROFILES[wave] || SAR_PROFILES.theta;
+  
+  document.getElementById('sarDescription').textContent = profile.desc;
+  document.getElementById('sarTargetState').textContent = profile.target;
+  document.getElementById('sarTargetEffect').textContent = profile.effect;
+  
+  document.getElementById('meterDelta').style.width = profile.meter.delta + '%';
+  document.getElementById('meterTheta').style.width = profile.meter.theta + '%';
+  document.getElementById('meterAlpha').style.width = profile.meter.alpha + '%';
+  document.getElementById('meterBeta').style.width = profile.meter.beta + '%';
+}
+
+function initPresetSystem(){
+  const presetMaster = document.getElementById('presetMaster');
+  const volMaster = document.getElementById('volMaster');
+  
+  if(presetMaster){
+    presetMaster.addEventListener('input', ()=>{
+      const v = presetMaster.value;
+      const db = -24 + (v/100)*24;
+      document.getElementById('presetMasterVal').textContent = db.toFixed(1)+' dB';
+      if(volMaster) volMaster.value = v;
+      applyPresetGains();
+    });
+    presetMaster.value = volMaster?.value || 82;
+  }
 }
 
 /* ========== UI wiring ========== */
@@ -1246,7 +1507,16 @@ document.getElementById('presetGrid').addEventListener('click', e=>{
   document.getElementById('beatFreq').value = p.dataset.beat;
   document.getElementById('carrierL').value = p.dataset.carrier;
   if(audioCtx) updateOscFreqs(); else updateOscFreqsNoAudio();
+  applyPresetGains();
   updateSessionMeta();
+
+  // Auto-select ambient type recommended for this preset
+  const ambientType = p.dataset.ambientType;
+  const ambientSelect = document.getElementById('ambientSelect');
+  if(ambientType && ambientSelect){
+    ambientSelect.value = ambientType;
+    if(isPlaying) startAmbient(ambientType);
+  }
 });
 function updateOscFreqsNoAudio(){
   const carrier = parseFloat(document.getElementById('carrierL').value)||150;
@@ -1277,9 +1547,29 @@ function bindRange(id, outId, onChange, fmt=v=>v+'%'){
   const update=()=>{ o.textContent = fmt(r.value); onChange && onChange(+r.value); };
   r.addEventListener('input', update); update();
 }
-bindRange('volBinaural','volBinauralVal', v=>{ if(binauralBus) binauralBus.gain.setTargetAtTime(v/100, audioCtx.currentTime, 0.02); });
-bindRange('volAmbient','volAmbientVal', v=>{ if(ambientBus) ambientBus.gain.setTargetAtTime(v/100, audioCtx.currentTime, 0.05); });
-bindRange('volMaster','volMasterVal', v=>{ if(masterGain && !isPlaying) masterGain.gain.value=v/100; });
+bindRange('volBinaural','volBinauralVal', v=>{
+  const db = -24 + (v/100)*24;
+  const g = gainFromDb(db);
+  document.getElementById('volBinauralVal').textContent = db.toFixed(1)+' dB';
+  if(binauralBus) binauralBus.gain.setTargetAtTime(g, audioCtx?.currentTime||0, 0.02);
+}, v=>'');
+bindRange('volAmbient','volAmbientVal', v=>{
+  const db = -24 + (v/100)*24;
+  const g = gainFromDb(db);
+  document.getElementById('volAmbientVal').textContent = db.toFixed(1)+' dB';
+  if(ambientBus) ambientBus.gain.setTargetAtTime(g, audioCtx?.currentTime||0, 0.05);
+}, v=>'');
+bindRange('volMaster','volMasterVal', v=>{
+  const db = -24 + (v/100)*24;
+  const g = gainFromDb(db);
+  document.getElementById('volMasterVal').textContent = db.toFixed(1)+' dB';
+  const presetMaster = document.getElementById('presetMaster');
+  if(presetMaster && presetMaster.value !== v) presetMaster.value = v;
+  const presetMasterVal = document.getElementById('presetMasterVal');
+  if(presetMasterVal) presetMasterVal.textContent = db.toFixed(1)+' dB';
+  if(masterGain) masterGain.gain.setTargetAtTime(g, audioCtx?.currentTime||0, 0.02);
+  applyPresetGains();
+}, v=>'');
 bindRange('volVoice','volVoiceVal', v=>{
   const db = -24 + (v/100)*24;
   const g = gainFromDb(db);
@@ -1362,7 +1652,7 @@ uploadZone.addEventListener('drop', e=>{
 });
 fileInput.addEventListener('change', e=> handleFiles(e.target.files));
 async function handleFiles(files){
-  if(!audioCtx) initAudio();
+  if(!audioCtx) createAudioContext();
   for(const f of [...files]){
     if(!f.type.startsWith('audio/')) { toast('Solo audio: '+f.name); continue; }
     await addTrack(f);
@@ -1404,7 +1694,7 @@ async function synthesizePhrase(text, cat){
     return;
   }
   if(audioCtx && audioCtx.state === 'suspended'){ try{ await audioCtx.resume(); }catch(e){} }
-  if(!audioCtx) initAudio();
+  if(!audioCtx) createAudioContext();
   const tr = await addTrack(null, '', `TTS: ${cat}`);
   tr.isTTS = true;
   tr.ttsText = text;
@@ -1418,16 +1708,20 @@ document.getElementById('autoDuck').addEventListener('change', e=>{
   if(!ambientBus || !audioCtx) return;
   const duck = e.target.checked ? 0.72 : 1.0;
   const anyVoice = tracks.some(t=>t.active);
-  ambientBus.gain.setTargetAtTime((parseInt(document.getElementById('volAmbient').value)/100) * (anyVoice?duck:1), audioCtx.currentTime, 0.4);
+  const ambientDb = -24 + (parseInt(document.getElementById('volAmbient').value,10)/100)*24;
+  const ambientVal = gainFromDb(ambientDb) * (anyVoice?duck:1);
+  ambientBus.gain.setTargetAtTime(ambientVal, audioCtx.currentTime, 0.4);
 });
 
 // initial
 updateOscFreqsNoAudio();
-startEEG();
+drawStaticEEG();
 renderTracks();
 updateProgressUI();
 updateSessionMeta();
 setVoiceMode('sequential');
+initPresetSystem();
+applyPresetGains();
 
 if('speechSynthesis' in window) speechSynthesis.getVoices();
 
@@ -1443,7 +1737,7 @@ setInterval(()=>{
   updateQueueStatus();
 }, 1200);
 
-toast('NeuroSync v1.5 — Secuenciador WebAudio sin solape');
+toast('NeuroSync v2 — Secuenciador WebAudio sin solape');
 </script>
 </body>
 </html>
